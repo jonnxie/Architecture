@@ -3,9 +3,15 @@
 
 using namespace Flow;
 
+
+struct DebugPoint : public Point, Normal{
+    glm::dvec3 test;
+};
+
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    Quad<Point> quad;
-    debugVertex<Point>(&quad.vertices[0]);
+    Quad<DebugPoint> quad;
+    debugVertexPosition<DebugPoint>(&quad.vertices[0]);
+    debugVertexNormal<DebugPoint>(&quad.vertices[0]);
     return 0;
 }
