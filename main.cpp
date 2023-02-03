@@ -9,9 +9,14 @@ struct DebugPoint : public Point, Normal{
 };
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
     Quad<DebugPoint> quad;
     debugVertexPosition<DebugPoint>(&quad.vertices[0]);
     debugVertexNormal<DebugPoint>(&quad.vertices[0]);
+
+    auto engine = makeEngine();
+    auto scene = makeScene();
+
+    engine->setScene(std::move(scene));
+
     return 0;
 }
