@@ -15,6 +15,12 @@ int main() {
 
     auto engine = makeEngine();
     auto scene = makeScene();
+    {
+        auto viewPortSpec = makeViewPortSpec(0, 0, 500, 500, Camera{});
+        auto firstViewPort = ViewPort::createViewPort(std::move(viewPortSpec));
+        auto& firstCamera = firstViewPort->getCamera();
+        firstCamera.setPos({0,0,10});
+    }
 
     engine->setScene(std::move(scene));
 
