@@ -14,15 +14,16 @@ int main() {
     debugVertexNormal<DebugPoint>(&quad.vertices[0]);
 
     auto engine = makeEngine();
-    auto scene = makeScene();
+    auto firstScene = makeScene();
     {
         auto viewPortSpec = makeViewPortSpec(0, 0, 500, 500, Camera{});
         auto firstViewPort = ViewPort::createViewPort(std::move(viewPortSpec));
         auto& firstCamera = firstViewPort->getCamera();
         firstCamera.setPos({0,0,10});
+        firstScene->addViewPort(firstViewPort);
     }
 
-    engine->setScene(std::move(scene));
+    engine->setScene(std::move(firstScene));
 
     return 0;
 }
