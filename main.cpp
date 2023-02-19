@@ -14,6 +14,10 @@ int main() {
     debugVertexNormal<DebugPoint>(&quad.vertices[0]);
 
     auto engine = makeEngine();
+    auto renderer = Renderer::createRender();
+    engine->setRenderer(renderer);
+    auto computer = createMultipleComputer();
+    engine->setComputer(computer);
     auto firstScene = makeScene();
     {
         auto viewPortSpec = makeViewPortSpec(0, 0, 500, 500, Camera{});
@@ -23,6 +27,13 @@ int main() {
         firstScene->addViewPort(firstViewPort);
     }
 
+    auto firstObject = firstScene->createObject("firstObject");
+    auto material = Material::creatMaterial({{"",VertexShader}, {"",FragmentShader}});
+    auto renderFunction = [=](RenderComponent* _component){
+        _component->drawIndex(4, 0);
+        _component->bindMaterial(material.get());
+    };
+    auto renderComponent = RenderComponent::createRenderComponent(renderFunction);
     engine->setScene(std::move(firstScene));
 
     return 0;
