@@ -29,11 +29,11 @@ int main() {
 
     auto firstObject = firstScene->createObject("firstObject");
     auto material = Material::creatMaterial({{"",VertexShader}, {"",FragmentShader}});
-    auto renderFunction = [=](RenderComponent* _component){
-        _component->drawIndex(4, 0);
+    std::function<void(RenderComponent*)> renderFunction = [=](RenderComponent* _component){
         _component->bindMaterial(material.get());
+        _component->drawIndex(4, 0);
     };
-    auto renderComponent = RenderComponent::createRenderComponent(renderFunction);
+    firstObject.addComponent<RenderComponentMiddle>(renderFunction);
     engine->setScene(std::move(firstScene));
 
     return 0;
