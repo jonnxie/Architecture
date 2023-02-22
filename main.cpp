@@ -14,6 +14,8 @@ int main() {
     debugVertexNormal<DebugPoint>(&quad.vertices[0]);
 
     auto engine = makeEngine();
+    auto window = std::make_shared<GLFWWindow>(640, 640, "FlowEngine");
+    engine->setWindow(window);
     auto renderer = Renderer::createRender();
     engine->setRenderer(renderer);
     auto computer = createMultipleComputer();
@@ -30,11 +32,11 @@ int main() {
     auto firstObject = firstScene->createObject("firstObject");
     auto material = Material::creatMaterial({{"",VertexShader}, {"",FragmentShader}});
     std::function<void(RenderComponent*)> renderFunction = [=](RenderComponent* _component){
-        _component->bindMaterial(material.get());
+        _component->bindMaterial(_component->getMaterial());
         _component->drawIndex(4, 0);
     };
     firstObject.addComponent<RenderComponentMiddle>(renderFunction);
     engine->setScene(std::move(firstScene));
-
+    engine->update();
     return 0;
 }
