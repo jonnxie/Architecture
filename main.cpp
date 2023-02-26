@@ -13,27 +13,29 @@ int main() {
     debugVertexPosition<DebugPoint>(&quad.vertices[0]);
     debugVertexNormal<DebugPoint>(&quad.vertices[0]);
 
-    auto engine = makeEngine();
-    auto window = std::make_shared<GLFWWindow>(640, 640, "FlowEngine");
+    auto engine {makeEngine()};
+    auto window{std::make_shared<GLFWWindow>(640, 640, "FlowEngine")};
     engine->setWindow(window);
-    auto renderer = Renderer::createRender();
+    auto renderer {Renderer::createRender()};
     engine->setRenderer(renderer);
-    auto computer = createMultipleComputer();
+    auto computer{createMultipleComputer()};
     engine->setComputer(computer);
     auto firstScene = makeScene();
     {
-        auto viewPortSpec = makeViewPortSpec(0, 0, 500, 500, Camera{});
-        auto firstViewPort = ViewPort::createViewPort(std::move(viewPortSpec));
-        auto& firstCamera = firstViewPort->getCamera();
+        auto viewPortSpec {makeViewPortSpec(0, 0, 500, 500, Camera{})};
+        auto firstViewPort {ViewPort::createViewPort(std::move(viewPortSpec))};
+        auto& firstCamera {firstViewPort->getCamera()};
         firstCamera.setPos({0,0,10});
         firstScene->addViewPort(firstViewPort);
     }
 
-    auto firstObject = firstScene->createObject("firstObject");
-    auto material = Material::creatMaterial({{"",VertexShader}, {"",FragmentShader}});
-    std::function<void(RenderComponent*)> renderFunction = [=](RenderComponent* _component){
+    auto firstObject {firstScene->createObject("firstObject")};
+    auto material {Material::creatMaterial({{"", VertexShader}, {"", FragmentShader}})};
+    std::function<void(RenderComponent*)> renderFunction {
+        [=](RenderComponent* _component){
         _component->bindMaterial(_component->getMaterial());
         _component->drawIndex(4, 0);
+    }
     };
     firstObject.addComponent<RenderComponentMiddle>(renderFunction);
     engine->setScene(std::move(firstScene));
