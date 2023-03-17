@@ -33,11 +33,12 @@ int main() {
     auto material {Material::creatMaterial({{"", VertexShader}, {"", FragmentShader}})};
     std::function<void(RenderComponent*)> renderFunction {
         [=](RenderComponent* _component){
-        _component->bindMaterial(_component->getMaterial());
-        _component->drawIndex(4, 0);
-    }
+            _component->bindMaterial(_component->getMaterial().get());
+            _component->drawIndex(4, 0);
+        }
     };
     firstObject.addComponent<RenderComponentMiddle>(renderFunction);
+    firstObject.getComponent<RenderComponentMiddle>()()->setMaterial(material);
     engine->setScene(std::move(firstScene));
     engine->update();
     return 0;
