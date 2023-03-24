@@ -26,13 +26,13 @@ int main() {
         auto firstViewPort {ViewPort::createViewPort(std::move(viewPortSpec))};
         auto& firstCamera {firstViewPort->getCamera()};
         firstCamera.setPos({0,0,10});
-        firstScene->addViewPort(firstViewPort);
+        firstScene->addViewPort("FirstViewPort",firstViewPort);
     }
 
     auto firstObject {firstScene->createObject("firstObject")};
     auto material {Material::creatMaterial({{"", VertexShader}, {"", FragmentShader}})};
     std::function<void(RenderComponent*)> renderFunction {
-        [=](RenderComponent* _component){
+        [](RenderComponent* _component) {
             _component->bindMaterial(_component->getMaterial().get());
             _component->drawIndex(4, 0);
         }
